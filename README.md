@@ -34,6 +34,8 @@ https://www.geeksforgeeks.org/ukkonens-suffix-tree-construction-part-6/
 
 - Visualization of Ukkonen's Algorithm
 
+https://github.com/brenden/ukkonen-animation
+
 http://brenden.github.io/ukkonen-animation/
 
 - McCreight's suffix tree construction algorithm
