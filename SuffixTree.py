@@ -8,8 +8,8 @@ class Node(object):
         self.transition = {}
         self.suffixLink = None
         self.ids = set()
-        Node.__num__ += 1
         self.id = Node.__num__
+        Node.__num__ += 1
 
     def addTransition(self, node, start, end, ch):
         self.transition[ch] = (node, start, end)
@@ -28,8 +28,8 @@ class SuffixTree(object):
         self.text = ""
         self.str_list = []
         self.seps = []
-        self.root = Node()
         self.bottom = Node()
+        self.root = Node()
         self.root.suffixLink = self.bottom
         self.s = self.root
         self.k = 0
