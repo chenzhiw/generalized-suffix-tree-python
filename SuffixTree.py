@@ -48,6 +48,7 @@ class SuffixTree(object):
         s = self.s
         k = self.k
         i = self.i
+        self.root.ids.add(self.index)
         for j in range(ori_len, len(self.text)):
             self.bottom.addTransition(self.root, j, j, self.text[j])
         while i < len(self.text) - 1:
@@ -65,6 +66,7 @@ class SuffixTree(object):
         endPoint, r = self.testAndSplit(s, k, i - 1, self.text[i])
         while not endPoint:
             r.addTransition(Node(), i, len(self.text) - 1, self.text[i])
+            r.transition[self.text[i]][0].ids.add(self.index)
             if oldr != self.root:
                 oldr.suffixLink = r
             oldr = r
@@ -81,7 +83,10 @@ class SuffixTree(object):
                 return True, s
             else:
                 r = Node()
+                r.ids.add(self.index)
+                r.ids.update(s2.ids)
                 s.addTransition(r, k2, k2 + p - k, self.text[k2])
+                s.ids.update(r.ids)
                 r.addTransition(s2, k2 + p - k + 1, p2, self.text[k2 + p - k + 1])
                 return False, r
         else:
@@ -122,6 +127,7 @@ class SuffixTree(object):
         nodes = [self.root]
         while len(nodes) > 0:
             node = nodes.pop(0)
+            dot += '{}[label="{}:({})"]\n'.format(node.id, node.id, "".join(map(str, node.ids)))
             if node.isLeaf():
                 pass
             else:
@@ -131,7 +137,7 @@ class SuffixTree(object):
                     dot += '{}->{}[label="{}"];\n'.format(node.id, n.id, label)
                     sl = n.suffixLink
                     if sl:
-                        dot += '{}->{}[style=dotted,constraint=false,arrowhead=vee,arrowsize=0.7];\n'.format(n.id, sl.id)
+                        dot += '{}->{}[style=dotted,constraint=false,color=green,arrowhead=vee,arrowsize=0.7];\n'.format(n.id, sl.id)
                     nodes.append(n)
         dot += "}\n"
         return dot
